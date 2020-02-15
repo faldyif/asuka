@@ -1,4 +1,6 @@
+import { UserProfileRequest } from "../models/osuRequest";
+
 export interface OsuApi {
     getUrl() : string;
-    getUserProfile();
+    getUserProfile(userProfileRequest: UserProfileRequest);
 }

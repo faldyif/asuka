@@ -4,6 +4,7 @@ env();
 import { Client, Message } from "discord.js";
 import { token } from "./config/discord";
 import { Peppy } from "./vendors/osuApi/peppy";
+import { apiKey } from "./config/osu";
 
 const startBot = () => {
     const client = new Client();
@@ -23,4 +24,7 @@ const startBot = () => {
 // startBot();
 
 const peppy = new Peppy();
-peppy.getUserProfile();
+peppy.getUserProfile({
+    u: 'Fal',
+    k: apiKey
+});
