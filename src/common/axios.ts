@@ -21,6 +21,6 @@ export default class Axios {
     }
 
     handleAxiosError(error: AxiosError) {
-        console.log(error);
+        console.error(error);
     }
 }

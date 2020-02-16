@@ -1,6 +1,5 @@
-import { UserProfileRequest } from "../models/osuRequest";
+import { OsuUser, UserProfileRequest } from "../models/osuRequest";
 
 export interface OsuApi {
-    getUrl() : string;
-    getUserProfile(userProfileRequest: UserProfileRequest);
+    getUserProfile(userProfileRequest: UserProfileRequest): Promise<OsuUser[]>;
 }
