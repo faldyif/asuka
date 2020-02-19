@@ -37,7 +37,6 @@ export class GetUser implements DiscordCommand {
             },
         });
         await message.reply(embed);
-        await message.react('😡');
     }
 }
 

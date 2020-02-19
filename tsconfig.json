@@ -1,12 +1,19 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "isolatedModules": true,
+    "target": "esnext",
     "sourceMap": true,
     "outDir": "dist",
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src"
   ]
 }
