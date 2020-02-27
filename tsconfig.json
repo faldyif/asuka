@@ -15,5 +15,16 @@
   ],
   "include": [
     "src"
-  ]
+  ],
+  "baseUrl": "./src",
+  "paths": {
+    "@botPlatform/*": ["botPlatform/*"],
+    "@commands/*": ["commands/*"],
+    "@common/*": ["common/*"],
+    "@config/*": ["config/*"],
+    "@contracts/*": ["contracts/*"],
+    "@errors/*": ["errors/*"],
+    "@models/*": ["models/*"],
+    "@vendors/*": ["vendors/*"]
+  }
 }

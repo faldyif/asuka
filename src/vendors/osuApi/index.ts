@@ -1,6 +1,13 @@
 import { OsuApi } from "../../contracts/osuApi";
 import Axios from "../../common/axios";
-import { OsuApiKeyParam, OsuUser, UserProfileRequest } from "../../models/osuRequest";
+import {
+    GetBeatmapsRequest,
+    OsuApiKeyParam, OsuBeatmap,
+    OsuRecent,
+    OsuUser,
+    UserProfileRequest,
+    UserRecentRequest
+} from '../../models/osuRequest';
 import { apiKey } from "../../config/osu";
 
 export abstract class Base implements OsuApi {
@@ -18,10 +25,19 @@ export abstract class Base implements OsuApi {
         this.axios = new Axios();
     }
 
-    async getUserProfile(userProfileRequest: UserProfileRequest): Promise<OsuUser[]> {
-        const result = await this.axios.get(this.getUrl('/get_user'), { params: { ...userProfileRequest, ...this.getApiKey() } });
+    async getUserProfile(request: UserProfileRequest): Promise<OsuUser[]> {
+        const result = await this.axios.get(this.getUrl('/get_user'), { params: { ...request, ...this.getApiKey() } });
         return result.data;
     }
+    async getUserRecent(request: UserRecentRequest): Promise<OsuRecent[]> {
+        const result = await this.axios.get(this.getUrl('/get_user_recent'), { params: { ...request, ...this.getApiKey() } });
+        return result.data;
+    }
+    async getBeatmaps(request: GetBeatmapsRequest): Promise<OsuBeatmap[]> {
+        const result = await this.axios.get(this.getUrl('/get_beatmaps'), { params: { ...request, ...this.getApiKey() } });
+        return result.data;
+    }
+
     getUserProfileUrl = (userId: string) => `${this.getBaseUserProfileUrl()}/${userId}`;
     getUserImageUrl = (userId: string) => `${this.getBaseProfilePictureUrl()}/${userId}`;
     getFlagImageUrl = (countryCode: string) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
