@@ -54,6 +54,7 @@ export class Discord {
 
             await discordCommand.execute(message, args);
         } catch (error) {
+            console.error(error);
             await message.reply('Oops! There was an error trying to execute that command!');
         }
     }

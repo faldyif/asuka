@@ -40,6 +40,7 @@ export abstract class Base implements OsuApi {
 
     getUserProfileUrl = (userId: string) => `${this.getBaseUserProfileUrl()}/${userId}`;
     getUserImageUrl = (userId: string) => `${this.getBaseProfilePictureUrl()}/${userId}`;
+    getBeatmapImageUrl = (beatmapSetId: string) => `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/cover.jpg`;
     getFlagImageUrl = (countryCode: string) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
 }
 
