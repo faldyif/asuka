@@ -125,6 +125,21 @@ export type OsuRecent = {
     user_id: string,
     date: string,
     rank: string,
+    pp?: string,
+    accuracy?: string,
+}
+
+export type OsuPlay = {
+    score: string,
+    maxcombo: string,
+    count50: string,
+    count100: string,
+    count300: string,
+    countmiss: string,
+    countkatu: string,
+    countgeki: string,
+    perfect: string,
+    enabled_mods: string,
 }
 
 export type OsuBeatmap = {

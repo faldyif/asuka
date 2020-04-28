@@ -10,7 +10,7 @@ import {
 } from '../../models/osuRequest';
 import { apiKey } from "../../config/osu";
 
-export abstract class Base implements OsuApi {
+export abstract class ApiBase implements OsuApi {
     protected axios: Axios;
     protected abstract getBaseUrl: () => string;
     protected abstract getBaseProfilePictureUrl: () => string;
@@ -44,56 +44,70 @@ export abstract class Base implements OsuApi {
     getFlagImageUrl = (countryCode: string) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
 }
 
-export class Akatsuki extends Base {
+export class Akatsuki extends ApiBase {
     getBaseProfilePictureUrl = (): string => "http://a.akatsuki.pw";
     getBaseUrl = (): string => "https://akatsuki.pw/api";
     getBaseUserProfileUrl = (): string => "https://akatsuki.pw/u";
     getServerName = (): string => "Akatsuki Private Server";
 }
-export class Ripple extends Base {
+export class Ripple extends ApiBase {
     getBaseProfilePictureUrl = (): string => "http://a.ripple.moe";
     getBaseUrl = (): string => "https://ripple.moe/api";
     getBaseUserProfileUrl = (): string => "https://ripple.moe/u";
     getServerName = (): string => "Ripple Private Server";
 }
-export class Peppy extends Base {
+export class Peppy extends ApiBase {
     getBaseUrl = (): string => "https://osu.ppy.sh/api";
     getApiKey = (): OsuApiKeyParam => ({k: apiKey});
     getBaseProfilePictureUrl = (): string => "http://s.ppy.sh/a";
     getBaseUserProfileUrl = (): string => "https://osu.ppy.sh/users";
     getServerName = (): string => "osu! Official Server";
 }
+export class Datenshi extends ApiBase {
+    getBaseProfilePictureUrl = (): string => "http://a.datenshi.xyz";
+    getBaseUrl = (): string => "https://datenshi.xyz/api";
+    getBaseUserProfileUrl = (): string => "https://datenshi.xyz/u";
+    getServerName = (): string => "Datenshi Private Server";
+}
 
 export default class OsuVendors {
-    private readonly _peppy: Base;
-    private readonly _akatsuki: Base;
-    private readonly _ripple: Base;
+    private readonly _peppy: ApiBase;
+    private readonly _akatsuki: ApiBase;
+    private readonly _ripple: ApiBase;
+    private readonly _datenshi: ApiBase;
 
     constructor() {
         this._peppy = new Peppy();
         this._akatsuki = new Akatsuki();
         this._ripple = new Ripple();
+        this._datenshi = new Datenshi();
     }
 
-    getVendor(vendor: string) : Base {
+    getVendor(vendor: string) : ApiBase {
         if (vendor === 'akatsuki') {
             return this.akatsuki;
         } else if (vendor === 'ripple') {
             return this.ripple;
+        } else if (vendor === 'datenshi') {
+            return this.datenshi;
         }
 
         return this.peppy;
     }
 
-    get peppy(): Base {
+    get peppy(): ApiBase {
         return this._peppy;
     }
 
-    get akatsuki(): Base {
+    get akatsuki(): ApiBase {
         return this._akatsuki;
     }
 
-    get ripple(): Base {
+    get ripple(): ApiBase {
         return this._ripple;
+    }
+
+    get datenshi(): ApiBase {
+        return this._datenshi;
     }
 }
