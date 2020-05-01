@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/bot.ts",
-    "debug": "tsc && node dist/bot.js",
+    "start": "tsc && node dist/bot.js",
+    "debug": "ts-node src/bot.ts",
     "test": "jest",
     "check-types": "tsc"
   },
