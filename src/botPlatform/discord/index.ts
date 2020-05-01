@@ -56,7 +56,7 @@ export class Discord {
             await discordCommand.execute(message, args);
         } catch (error) {
             if (error instanceof NoMatchError) {
-                await message.channel.send(error.message);
+                await message.channel.send(`\`${error.message}\``);
             } else {
                 await message.channel.send('Unknown error');
             }
