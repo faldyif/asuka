@@ -58,6 +58,7 @@ export class Discord {
             if (error instanceof NoMatchError) {
                 await message.channel.send(`\`${error.message}\``);
             } else {
+                console.error(error);
                 await message.channel.send('Unknown error');
             }
         }
