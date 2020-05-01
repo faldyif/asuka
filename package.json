@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/bot.js",
+    "start": "npm run build && node dist/bot.js",
     "debug": "ts-node src/bot.ts",
     "test": "jest",
+    "build": "tsc",
     "check-types": "tsc"
   },
   "keywords": [],
