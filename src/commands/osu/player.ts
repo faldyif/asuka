@@ -31,7 +31,8 @@ export abstract class Player implements DiscordCommand {
                 text: `On ${osuVendor.getServerName()}`,
             },
         });
-        await message.reply(embed);
+
+        await message.channel.send(embed);
     }
 
     abstract execute(message: Message, args: string[] | undefined): Promise<void>;

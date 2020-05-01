@@ -19,7 +19,8 @@
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "module-alias": "^2.2.2",
-    "moment": "^2.25.0"
+    "moment": "^2.25.0",
+    "tedis": "^0.1.12"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",

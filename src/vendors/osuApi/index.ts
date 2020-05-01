@@ -3,7 +3,7 @@ import Axios from "../../common/axios";
 import {
     GetBeatmapsRequest,
     OsuApiKeyParam, OsuBeatmap,
-    OsuRecent,
+    OsuRecent, OsuScore,
     OsuUser,
     UserProfileRequest,
     UserRecentRequest
@@ -15,6 +15,7 @@ export abstract class ApiBase implements OsuApi {
     protected abstract getBaseUrl: () => string;
     protected abstract getBaseProfilePictureUrl: () => string;
     protected abstract getBaseUserProfileUrl: () => string;
+    protected abstract getBaseBeatmapUrl: () => string;
 
     abstract getServerName: () => string;
 
@@ -37,10 +38,15 @@ export abstract class ApiBase implements OsuApi {
         const result = await this.axios.get(this.getUrl('/get_beatmaps'), { params: { ...request, ...this.getApiKey() } });
         return result.data;
     }
+    async getScores(request: GetBeatmapsRequest): Promise<OsuScore[]> {
+        const result = await this.axios.get(this.getUrl('/get_scores'), { params: { ...request, ...this.getApiKey() } });
+        return result.data;
+    }
 
     getUserProfileUrl = (userId: any) => `${this.getBaseUserProfileUrl()}/${userId}`;
     getUserImageUrl = (userId: any) => `${this.getBaseProfilePictureUrl()}/${userId}`;
     getBeatmapImageUrl = (beatmapSetId: any) => `https://b.ppy.sh/thumb/${beatmapSetId}.jpg`;
+    getBeatmapUrl = (beatmapId: any) => `${this.getBaseBeatmapUrl()}/${beatmapId}`;
     getFlagImageUrl = (countryCode: any) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
 }
 
@@ -49,12 +55,14 @@ export class Akatsuki extends ApiBase {
     getBaseUrl = (): string => "https://akatsuki.pw/api";
     getBaseUserProfileUrl = (): string => "https://akatsuki.pw/u";
     getServerName = (): string => "Akatsuki Private Server";
+    getBaseBeatmapUrl = (): string => "https://akatsuki.pw/b";
 }
 export class Ripple extends ApiBase {
     getBaseProfilePictureUrl = (): string => "http://a.ripple.moe";
     getBaseUrl = (): string => "https://ripple.moe/api";
     getBaseUserProfileUrl = (): string => "https://ripple.moe/u";
     getServerName = (): string => "Ripple Private Server";
+    getBaseBeatmapUrl = (): string => "https://ripple.moe/b";
 }
 export class Peppy extends ApiBase {
     getBaseUrl = (): string => "https://osu.ppy.sh/api";
@@ -62,12 +70,14 @@ export class Peppy extends ApiBase {
     getBaseProfilePictureUrl = (): string => "http://s.ppy.sh/a";
     getBaseUserProfileUrl = (): string => "https://osu.ppy.sh/users";
     getServerName = (): string => "osu! Official Server";
+    getBaseBeatmapUrl = (): string => "https://osu.ppy.sh/b";
 }
 export class Datenshi extends ApiBase {
     getBaseProfilePictureUrl = (): string => "http://a.datenshi.xyz";
     getBaseUrl = (): string => "https://datenshi.xyz/api";
     getBaseUserProfileUrl = (): string => "https://datenshi.xyz/u";
     getServerName = (): string => "Datenshi Private Server";
+    getBaseBeatmapUrl = (): string => "https://datenshi.xyz/b";
 }
 
 export default class OsuVendors {
@@ -84,11 +94,11 @@ export default class OsuVendors {
     }
 
     getVendor(vendor: string) : ApiBase {
-        if (vendor === 'akatsuki') {
+        if (vendor === '-akatsuki') {
             return this.akatsuki;
-        } else if (vendor === 'ripple') {
+        } else if (vendor === '-ripple') {
             return this.ripple;
-        } else if (vendor === 'datenshi') {
+        } else if (vendor === '-datenshi') {
             return this.datenshi;
         }
 

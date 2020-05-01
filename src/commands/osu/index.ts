@@ -2,6 +2,7 @@ import { DiscordCommand } from '../../contracts/discord';
 import { Collection } from 'discord.js';
 import RecentScore from './recentScore';
 import { CTB, Mania, Osu, Taiko } from './player';
+import CompareScore from "./score";
 
 export default class OsuCommands {
     private readonly _commands: Collection<string, DiscordCommand>;
@@ -11,7 +12,8 @@ export default class OsuCommands {
         new Taiko(),
         new CTB(),
 
-        new RecentScore()
+        new RecentScore(),
+        new CompareScore()
     ];
 
     constructor() {

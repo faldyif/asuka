@@ -26,6 +26,15 @@ export type GetBeatmapsRequest = {
     limit?: Number
 };
 
+export type GetScoresRequest = {
+    b?: any,
+    u?: any,
+    m?: OsuMode,
+    mods?: OsuMods,
+    type?: OsuType,
+    limit?: Number
+};
+
 export type OsuApiKeyParam = {
     k?: string
 };
@@ -62,6 +71,26 @@ export type OsuUser = {
     pp_country_rank: string,
     events?: OsuEvent[]
 };
+
+export type OsuScore = {
+    score_id: string
+    score: string
+    username: string
+    count300: string
+    count100: string
+    count50: string
+    countmiss: string
+    maxcombo: string
+    countkatu: string
+    countgeki: string
+    perfect: string
+    enabled_mods: string
+    user_id: string
+    date: string
+    rank: string
+    pp: string
+    replay_available: string
+}
 
 export type OsuRecent = {
     beatmap_id: string,

@@ -79,11 +79,36 @@ const applicableMods = [
     { bit: OsuMods.Mirror, short: 'MR' },
 ];
 
-export function stringifyOsuMods (osuMod: number) : string {
-    if (osuMod === 0) return "No Mod";
+export function stringModeToEnum(mode: any) {
+    if (mode === 'mania') {
+        return OsuMode.Mania;
+    } else if (mode === 'taiko') {
+        return OsuMode.Taiko;
+    } else if (mode === 'ctb' || mode === 'catch') {
+        return OsuMode.CatchTheBeat;
+    }
+
+    return OsuMode.Standard;
+}
+export function enumModeToString(mode: OsuMode) {
+    if (mode === OsuMode.Standard) {
+        return 'osu! Standard';
+    } else if (mode === OsuMode.Mania) {
+        return 'osu! Mania';
+    } else if (mode === OsuMode.CatchTheBeat) {
+        return 'osu! Catch the Beat';
+    }
+
+    return 'osu! Taiko';
+}
+
+export function stringifyOsuMods (osuMod: any) : string {
+    const mod = Number(osuMod);
+
+    if (mod === 0) return "No Mod";
 
     return applicableMods.reduce(((previousValue, currentValue) => (
-        osuMod & currentValue.bit ? `${previousValue}${currentValue.short}` : previousValue
+        mod & currentValue.bit ? `${previousValue}${currentValue.short}` : previousValue
     )), '');
 }
 
