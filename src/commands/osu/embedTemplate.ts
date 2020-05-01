@@ -12,7 +12,7 @@ export class EmbedDescription {
             ],
             [
                 `▸ ${play.score}`,
-                `▸ x${play.maxcombo}/${beatmap.max_combo || 'None'}`,
+                `▸ x${play.maxcombo}/${beatmap.max_combo === null || beatmap.max_combo === '0' ? 'None' : beatmap.max_combo}`,
                 `▸ [${play.count300}/${play.count100}/${play.count50}/${play.countmiss}]`,
             ]
         ]
