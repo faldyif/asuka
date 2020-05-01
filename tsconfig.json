@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "noEmit": true,
     "isolatedModules": true,
     "target": "esnext",
     "sourceMap": true,
