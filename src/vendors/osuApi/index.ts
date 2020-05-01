@@ -94,11 +94,11 @@ export default class OsuVendors {
     }
 
     getVendor(vendor: string) : ApiBase {
-        if (vendor === '-akatsuki') {
+        if (vendor === 'akatsuki') {
             return this.akatsuki;
-        } else if (vendor === '-ripple') {
+        } else if (vendor === 'ripple') {
             return this.ripple;
-        } else if (vendor === '-datenshi') {
+        } else if (vendor === 'datenshi') {
             return this.datenshi;
         }
 
