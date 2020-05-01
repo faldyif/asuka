@@ -3,6 +3,7 @@ import { token, prefix } from "../../config/discord";
 import DiscordError from "../../errors/discord";
 import { DiscordCommand } from "../../contracts/discord";
 import OsuCommands from "../../commands/osu";
+import NoMatchError from "../../errors/noMatchError";
 
 export class Discord {
     private client: Client;
@@ -54,8 +55,11 @@ export class Discord {
 
             await discordCommand.execute(message, args);
         } catch (error) {
-            console.error(error);
-            await message.reply('Oops! There was an error trying to execute that command!');
+            if (error instanceof NoMatchError) {
+                await message.channel.send(error.message);
+            } else {
+                await message.channel.send('Unknown error');
+            }
         }
     }
 

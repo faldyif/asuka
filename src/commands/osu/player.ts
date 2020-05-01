@@ -44,13 +44,13 @@ export class Osu extends Player {
     public aliases: string[] = [];
 
     execute = async (message: Message, args?: string[]) => {
-        if (args === undefined || args.length === 0) throw NoMatchError;
+        if (args === undefined || args.length === 0) throw new NoMatchError('Invalid arguments');
         const [userName, vendor] = args;
 
         const osuVendor = osuVendors.getVendor(vendor);
         const userData = await osuVendor.getUserProfile({u: userName});
 
-        if (userData === undefined || userData.length === 0) throw NoMatchError;
+        if (userData === undefined || userData.length === 0) throw new NoMatchError('User not found');
         const [user] = userData;
 
         await this.postEmbed(message, user, osuVendor);
@@ -63,13 +63,13 @@ export class Mania extends Player {
     public aliases: string[] = [];
 
     execute = async (message: Message, args?: string[]) => {
-        if (args === undefined || args.length === 0) throw NoMatchError;
+        if (args === undefined || args.length === 0) throw new NoMatchError('Invalid arguments');
         const [userName, vendor] = args;
 
         const osuVendor = osuVendors.getVendor(vendor);
         const userData = await osuVendor.getUserProfile({u: userName, m: OsuMode.Mania});
 
-        if (userData === undefined || userData.length === 0) throw NoMatchError;
+        if (userData === undefined || userData.length === 0) throw new NoMatchError('User not found');
         const [user] = userData;
 
         await this.postEmbed(message, user, osuVendor);
@@ -82,13 +82,13 @@ export class Taiko extends Player {
     public aliases: string[] = [];
 
     execute = async (message: Message, args?: string[]) => {
-        if (args === undefined || args.length === 0) throw NoMatchError;
+        if (args === undefined || args.length === 0) throw new NoMatchError('Invalid arguments');
         const [userName, vendor] = args;
 
         const osuVendor = osuVendors.getVendor(vendor);
         const userData = await osuVendor.getUserProfile({u: userName, m: OsuMode.Taiko});
 
-        if (userData === undefined || userData.length === 0) throw NoMatchError;
+        if (userData === undefined || userData.length === 0) throw new NoMatchError('User not found');
         const [user] = userData;
 
         await this.postEmbed(message, user, osuVendor);
@@ -101,13 +101,13 @@ export class CTB extends Player {
     public aliases: string[] = [];
 
     execute = async (message: Message, args?: string[]) => {
-        if (args === undefined || args.length === 0) throw NoMatchError;
+        if (args === undefined || args.length === 0) throw new NoMatchError('Invalid arguments');
         const [userName, vendor] = args;
 
         const osuVendor = osuVendors.getVendor(vendor);
         const userData = await osuVendor.getUserProfile({u: userName, m: OsuMode.CatchTheBeat});
 
-        if (userData === undefined || userData.length === 0) throw NoMatchError;
+        if (userData === undefined || userData.length === 0) throw new NoMatchError('User not found');
         const [user] = userData;
 
         await this.postEmbed(message, user, osuVendor);

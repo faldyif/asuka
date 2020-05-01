@@ -26,7 +26,7 @@ export default class RecentScore implements DiscordCommand {
         const [mostRecentPlay] = userRecent;
 
         const beatmaps = await osuVendor.getBeatmaps({b: mostRecentPlay.beatmap_id});
-        if (beatmaps === undefined || beatmaps.length === 0) throw NoMatchError;
+        if (beatmaps === undefined || beatmaps.length === 0) throw new NoMatchError('Beatmap not found');
         const [beatmap] = beatmaps;
 
         const embed = new RichEmbed({
