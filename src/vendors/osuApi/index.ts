@@ -38,10 +38,10 @@ export abstract class ApiBase implements OsuApi {
         return result.data;
     }
 
-    getUserProfileUrl = (userId: string) => `${this.getBaseUserProfileUrl()}/${userId}`;
-    getUserImageUrl = (userId: string) => `${this.getBaseProfilePictureUrl()}/${userId}`;
-    getBeatmapImageUrl = (beatmapSetId: string) => `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/cover.jpg`;
-    getFlagImageUrl = (countryCode: string) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
+    getUserProfileUrl = (userId: any) => `${this.getBaseUserProfileUrl()}/${userId}`;
+    getUserImageUrl = (userId: any) => `${this.getBaseProfilePictureUrl()}/${userId}`;
+    getBeatmapImageUrl = (beatmapSetId: any) => `https://b.ppy.sh/thumb/${beatmapSetId}.jpg`;
+    getFlagImageUrl = (countryCode: any) => `https://www.countryflags.io/${countryCode}/flat/64.png`;
 }
 
 export class Akatsuki extends ApiBase {

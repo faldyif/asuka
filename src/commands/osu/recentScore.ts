@@ -1,9 +1,9 @@
 import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
-import { OsuType } from '../../models/osuRequest';
 import OsuVendors from '../../vendors/osuApi';
-import { calculateAccuracy, calculatePP } from '../../common/osu';
+import { calculateAccuracy, calculatePP, OsuType, stringifyOsuMods } from '../../common/osu';
+const moment = require('moment');
 
 const osuVendors = new OsuVendors();
 
@@ -41,14 +41,14 @@ export default class RecentScore implements DiscordCommand {
 
         const embed = new RichEmbed({
             author: {
-                name: `${beatmap.title} [${beatmap.version}] [${Number(beatmap.difficultyrating).toFixed(2)}★]`,
+                name: `${beatmap.title} [${beatmap.version}] +${stringifyOsuMods(Number(mostRecentPlay.enabled_mods))} [${Number(beatmap.difficultyrating).toFixed(2)}★]`,
                 icon_url: osuVendor.getUserImageUrl(mostRecentPlay.user_id),
                 url: osuVendor.getUserProfileUrl(mostRecentPlay.user_id),
             },
             description: texts.map((value => (value.join(' ')))).join('\n'),
-            image: { url: osuVendor.getBeatmapImageUrl(beatmap.beatmapset_id) },
+            thumbnail: { url: osuVendor.getBeatmapImageUrl(beatmap.beatmapset_id) },
             footer: {
-                text: `On ${osuVendor.getServerName()}`,
+                text: `${moment(mostRecentPlay.date).fromNow()} On ${osuVendor.getServerName()}`,
             },
         });
         await message.reply(embed);

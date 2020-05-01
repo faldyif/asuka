@@ -2,7 +2,8 @@ import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
 import OsuVendors, { ApiBase } from '../../vendors/osuApi';
-import { OsuMode, OsuUser } from '../../models/osuRequest';
+import { OsuUser } from '../../models/osuRequest';
+import { OsuMode } from "../../common/osu";
 
 const osuVendors = new OsuVendors();
 
