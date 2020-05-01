@@ -12,6 +12,8 @@
 
 ## About The Project
 
+![](https://cdn.discordapp.com/attachments/428937438224842754/705724439161208833/1082.jpg)
+
 This is Asuka, a Discord bot created by [faldyif](https://github.com/faldyif) mainly for osu! tracking. Because this project is currently work in progress, it only supports the following features:
 * User Profiles (std/mania/taiko/ctb)
 * User Most Recent Play
