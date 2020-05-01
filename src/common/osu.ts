@@ -87,9 +87,38 @@ export function stringifyOsuMods (osuMod: number) : string {
     )), '');
 }
 
-export function calculateAccuracy (osuPlay: OsuPlay) {
-    // TODO: implement this
-    return '?';
+export function calculateAccuracy (osuPlay: OsuPlay, gameMode: OsuMode, round: boolean = true) {
+    const c = {
+        '50': Number(osuPlay.count50),
+        '100': Number(osuPlay.count100),
+        '300': Number(osuPlay.count300),
+        miss: Number(osuPlay.countmiss),
+        geki: Number(osuPlay.countgeki),
+        katu: Number(osuPlay.countkatu),
+    };
+
+    let total: number = 0;
+    let accuracy: number = 0;
+
+    if (gameMode === OsuMode.Standard) {
+        total = c['50'] + c['100'] + c['300'] + c.miss;
+        accuracy = total === 0 ? 0 : ((c['300'] * 300 + c['100'] * 100 + c['50'] * 50) / (total * 300));
+    } else if (gameMode === OsuMode.Mania) {
+        total = c['50'] + c['100'] + c['300'] + c.katu + c.geki + c.miss;
+        accuracy = total === 0 ? 0 : ((c['50'] * 50 + c['100'] * 100 + c.katu * 200 + (c['300'] + c.geki) * 300) / (total * 300));
+    } else if (gameMode === OsuMode.CatchTheBeat) {
+        total = c['50'] + c['100'] + c['300'] + c.katu + c.miss;
+        accuracy = total === 0 ? 0 : ((c['50'] + c['100'] + c['300']) / total);
+    } else { // Taiko
+        total = c['100'] + c['300'] + c.miss;
+        accuracy = total === 0 ? 0 : (((c['300'] + c['100'] * .5) * 300) / (total * 300));
+    }
+
+    if (round) {
+        return Math.round(accuracy * 10000) / 100;
+    }
+
+    return accuracy * 100;
 }
 
 export function calculatePP (osuPlay: OsuPlay) {

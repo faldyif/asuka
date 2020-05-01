@@ -2,7 +2,7 @@ import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
 import OsuVendors from '../../vendors/osuApi';
-import { calculateAccuracy, calculatePP, OsuType, stringifyOsuMods } from '../../common/osu';
+import { calculateAccuracy, calculatePP, OsuMode, OsuType, stringifyOsuMods } from '../../common/osu';
 const moment = require('moment');
 
 const osuVendors = new OsuVendors();
@@ -16,8 +16,9 @@ export default class RecentScore implements DiscordCommand {
         if (args === undefined || args.length === 0) throw new NoMatchError('Invalid arguments');
         const [userName, vendor] = args;
 
+        const mode = OsuMode.Standard;
         const osuVendor = osuVendors.getVendor(vendor);
-        const userRecent = await osuVendor.getUserRecent({u: userName, type: OsuType.userName});
+        const userRecent = await osuVendor.getUserRecent({u: userName, type: OsuType.userName, m: mode});
 
         if (userRecent === undefined || userRecent.length === 0) throw new NoMatchError('User recent not found');
         const [mostRecentPlay] = userRecent;
@@ -30,7 +31,7 @@ export default class RecentScore implements DiscordCommand {
             [
                 `▸ ${mostRecentPlay.rank}`,
                 `▸ ${calculatePP(mostRecentPlay)}pp`,
-                `▸ ${calculateAccuracy(mostRecentPlay)}%`,
+                `▸ ${calculateAccuracy(mostRecentPlay, mode)}%`,
             ],
             [
                 `▸ ${mostRecentPlay.score}`,
