@@ -17,6 +17,7 @@
 This is Asuka, a Discord bot created by [faldyif](https://github.com/faldyif) mainly for osu! tracking. Because this project is currently work in progress, it only supports the following features:
 * User Profiles (std/mania/taiko/ctb)
 * User Most Recent Play
+* Compare Play
 
 ### Built With
 
@@ -33,6 +34,7 @@ To get a local copy up and running follow these simple example steps.
 
 This is the things you need to use the software and how to install them.
 * Node.js 12.0.0 or newer
+* Redis
 * npm
 ```sh
 npm install npm@latest -g
