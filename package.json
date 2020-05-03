@@ -21,6 +21,7 @@
     "dotenv": "^8.2.0",
     "module-alias": "^2.2.2",
     "moment": "^2.25.0",
+    "ojsama": "^1.2.5",
     "tedis": "^0.1.12"
   },
   "devDependencies": {

@@ -9,6 +9,18 @@ import {
     UserRecentRequest
 } from '../../models/osuRequest';
 import { apiKey } from "../../config/osu";
+import Calculator from "../osuPP";
+import StdCalculator from "../osuPP/std";
+import ManiaCalculator from "../osuPP/mania";
+import TaikoCalculator from "../osuPP/taiko";
+import CtbCalculator from "../osuPP/ctb";
+
+type ModePPCalculator = {
+    '0': Calculator;
+    '1': Calculator;
+    '2': Calculator;
+    '3': Calculator;
+}
 
 export abstract class ApiBase implements OsuApi {
     protected axios: Axios;
@@ -25,6 +37,13 @@ export abstract class ApiBase implements OsuApi {
     constructor() {
         this.axios = new Axios();
     }
+
+    getModePPCalculator = (): ModePPCalculator => ({
+        '0': new StdCalculator(),
+        '1': new TaikoCalculator(),
+        '2': new CtbCalculator(),
+        '3': new ManiaCalculator(),
+    });
 
     async getUserProfile(request: UserProfileRequest): Promise<OsuUser[]> {
         const result = await this.axios.get(this.getUrl('/get_user'), { params: { ...request, ...this.getApiKey() } });
@@ -80,7 +99,7 @@ export class Datenshi extends ApiBase {
     getBaseBeatmapUrl = (): string => "https://datenshi.xyz/b";
 }
 
-export default class OsuVendors {
+export default class OsuVendor {
     private readonly _peppy: ApiBase;
     private readonly _akatsuki: ApiBase;
     private readonly _ripple: ApiBase;

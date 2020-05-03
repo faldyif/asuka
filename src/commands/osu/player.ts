@@ -1,11 +1,11 @@
 import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
-import OsuVendors, { ApiBase } from '../../vendors/osuApi';
+import OsuVendor, { ApiBase } from '../../vendors/osuAPI';
 import { OsuUser } from '../../models/osuRequest';
 import { OsuMode } from "../../common/osu";
 
-const osuVendors = new OsuVendors();
+const osuVendors = new OsuVendor();
 
 export abstract class Player implements DiscordCommand {
     abstract description: string;

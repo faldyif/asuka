@@ -1,4 +1,6 @@
-import { OsuPlay } from '../models/osuRequest';
+import { OsuBeatmap, OsuPlay } from '../models/osuRequest';
+import { roundTwoDigitPrecision } from "./utils";
+import { ApiBase } from "../vendors/osuAPI";
 
 export enum OsuMode {
     Standard,
@@ -122,8 +124,8 @@ export function calculateAccuracy (osuPlay: OsuPlay, gameMode: OsuMode, round: b
         katu: Number(osuPlay.countkatu),
     };
 
-    let total: number = 0;
-    let accuracy: number = 0;
+    let total: number;
+    let accuracy: number;
 
     if (gameMode === OsuMode.Standard) {
         total = c['50'] + c['100'] + c['300'] + c.miss;
@@ -140,13 +142,12 @@ export function calculateAccuracy (osuPlay: OsuPlay, gameMode: OsuMode, round: b
     }
 
     if (round) {
-        return Math.round(accuracy * 10000) / 100;
+        return roundTwoDigitPrecision(accuracy * 100);
     }
 
     return accuracy * 100;
 }
 
-export function calculatePP (osuPlay: OsuPlay) {
-    // TODO: implement this
-    return '?';
+export async function calculatePP (play: any, beatmap: OsuBeatmap, mode: OsuMode, vendor: ApiBase) {
+    return await vendor.getModePPCalculator()[mode].calculate(beatmap.beatmap_id, play);
 }

@@ -1,13 +1,13 @@
 import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
-import OsuVendors from '../../vendors/osuApi';
-import { calculateAccuracy, calculatePP, OsuMode, OsuType, stringifyOsuMods, stringModeToEnum } from '../../common/osu';
+import OsuVendor from '../../vendors/osuAPI';
+import { OsuType, stringifyOsuMods, stringModeToEnum } from '../../common/osu';
 import { storeLatestChannelBeatmapId } from "../../common/cache";
 import { EmbedDescription } from "./embedTemplate";
 const moment = require('moment');
 
-const osuVendors = new OsuVendors();
+const osuVendors = new OsuVendor();
 
 export default class RecentScore implements DiscordCommand {
     public description: string = 'Get recent osu! play';
@@ -35,7 +35,7 @@ export default class RecentScore implements DiscordCommand {
                 icon_url: osuVendor.getUserImageUrl(mostRecentPlay.user_id),
                 url: osuVendor.getUserProfileUrl(mostRecentPlay.user_id),
             },
-            description: EmbedDescription.recentScore(mostRecentPlay, beatmap, mode),
+            description: await EmbedDescription.recentScore(mostRecentPlay, beatmap, mode, osuVendor),
             thumbnail: { url: osuVendor.getBeatmapImageUrl(beatmap.beatmapset_id) },
             footer: {
                 text: `${moment(mostRecentPlay.date).fromNow()} On ${osuVendor.getServerName()}`,

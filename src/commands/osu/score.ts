@@ -1,21 +1,16 @@
 import { DiscordCommand } from '../../contracts/discord';
 import { Message, RichEmbed } from 'discord.js';
 import NoMatchError from '../../errors/noMatchError';
-import OsuVendors from '../../vendors/osuApi';
+import OsuVendor from '../../vendors/osuAPI';
 import {
-    calculateAccuracy,
-    calculatePP,
     enumModeToString,
-    OsuMode,
     OsuType,
-    stringifyOsuMods,
     stringModeToEnum
 } from '../../common/osu';
-import { getLatestChannelBeatmapId, storeLatestChannelBeatmapId } from "../../common/cache";
+import { getLatestChannelBeatmapId} from "../../common/cache";
 import { EmbedDescription } from "./embedTemplate";
-const moment = require('moment');
 
-const osuVendors = new OsuVendors();
+const osuVendors = new OsuVendor();
 
 export default class CompareScore implements DiscordCommand {
     public description: string = 'Compare osu! score';
@@ -33,10 +28,10 @@ export default class CompareScore implements DiscordCommand {
         const osuVendor = osuVendors.getVendor(vendor);
 
         const scores = await osuVendor.getScores({u: userName, type: OsuType.userName, m: mode, b: beatmapId});
-        if (scores === undefined || scores.length === 0) throw new NoMatchError('Scores not found');
+        if (scores === undefined || scores === null || scores.length === 0) throw new NoMatchError('Scores not found');
 
         const beatmaps = await osuVendor.getBeatmaps({b: beatmapId});
-        if (beatmaps === undefined || beatmaps.length === 0) throw new NoMatchError('Beatmap not found');
+        if (beatmaps === undefined || beatmaps === null || beatmaps.length === 0) throw new NoMatchError('Beatmap not found');
         const [beatmap] = beatmaps;
 
         const embed = new RichEmbed({
@@ -45,7 +40,7 @@ export default class CompareScore implements DiscordCommand {
                 icon_url: osuVendor.getUserImageUrl(scores[0].user_id),
                 url: osuVendor.getBeatmapImageUrl(beatmapId),
             },
-            description: EmbedDescription.score(scores, beatmap, mode),
+            description: await EmbedDescription.score(scores, beatmap, mode, osuVendor),
             thumbnail: { url: osuVendor.getBeatmapImageUrl(beatmap.beatmapset_id) },
             footer: {
                 text: `On ${osuVendor.getServerName()}`,

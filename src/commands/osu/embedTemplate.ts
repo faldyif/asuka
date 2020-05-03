@@ -1,13 +1,14 @@
 import { calculateAccuracy, calculatePP, OsuMode, stringifyOsuMods } from "../../common/osu";
 import { OsuBeatmap, OsuRecent, OsuScore } from "../../models/osuRequest";
+import { ApiBase }  from "../../vendors/osuAPI";
 const moment = require('moment');
 
 export class EmbedDescription {
-    private static recentScoreStructure(play: any, beatmap: OsuBeatmap, mode: OsuMode): string[][] {
+    private static async recentScoreStructure(play: any, beatmap: OsuBeatmap, mode: OsuMode, vendor: ApiBase): Promise<string[][]> {
         return [
             [
                 `▸ ${play.rank}`,
-                `▸ **${calculatePP(play)}pp**`,
+                `▸ **${await calculatePP(play, beatmap, mode, vendor)}pp**`,
                 `▸ ${calculateAccuracy(play, mode)}%`,
             ],
             [
@@ -18,25 +19,24 @@ export class EmbedDescription {
         ]
     }
 
-    private static scoreStructure(play: any, beatmap: OsuBeatmap, mode: OsuMode, index: number): string[][] {
+    private static async scoreStructure(play: any, beatmap: OsuBeatmap, mode: OsuMode, vendor: ApiBase, index: number): Promise<string[][]> {
         return [
             [
                 `**${index}. \`${stringifyOsuMods(play.enabled_mods)}\` Score** [${Number(beatmap.difficultyrating).toFixed(2)}★]`
             ],
-            ...this.recentScoreStructure(play, beatmap, mode),
+            ...await this.recentScoreStructure(play, beatmap, mode, vendor),
             [
                 `▸ Score Set ${moment(play.date).fromNow()}`,
             ],
         ];
     }
 
-    static recentScore(play: OsuRecent, beatmap: OsuBeatmap, mode: OsuMode): string {
-        return this.recentScoreStructure(play, beatmap, mode).map((value => (value.join(' ')))).join('\n');
+    static async recentScore(play: OsuRecent, beatmap: OsuBeatmap, mode: OsuMode, vendor: ApiBase): Promise<string> {
+        return (await this.recentScoreStructure(play, beatmap, mode, vendor)).map((value => (value.join(' ')))).join('\n');
     }
 
-    static score(plays: OsuScore[], beatmap: OsuBeatmap, mode: OsuMode): string {
-        return plays.reduce((previousValue, play, currentIndex) => (
-            `${previousValue}\n${this.scoreStructure(play, beatmap, mode, currentIndex + 1).map((value => (value.join(' ')))).join('\n')}`
-        ), "");
+    static async score(plays: OsuScore[], beatmap: OsuBeatmap, mode: OsuMode, vendor: ApiBase): Promise<string> {
+        const scoreStructures = await Promise.all(plays.map((play, currentIndex) => (this.scoreStructure(play, beatmap, mode, vendor, currentIndex + 1))));
+        return scoreStructures.reduce((previousValue, structure) => `${previousValue}\n${structure.map((value => (value.join(' ')))).join('\n')}`, "");
     }
 }

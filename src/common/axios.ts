@@ -1,10 +1,9 @@
-import { apiKey } from "../config/osu";
 import AxiosError from "../errors/axiosError";
 
 const axios = require('axios').default;
 
 export default class Axios {
-    async get(url: string, config: any) {
+    async get(url: string, config: any = {}) {
         try {
             return await axios.get(url, config);
         } catch (e) {
@@ -12,7 +11,7 @@ export default class Axios {
         }
     }
 
-    async post(url: string, config: any) {
+    async post(url: string, config: any = {}) {
         try {
             return await axios.get(url, config);
         } catch (e) {
